@@ -1,13 +1,27 @@
 import { createContext, useContext, useReducer } from 'react';
 const initialState = {
   isAuthenticated: false,
+  user: null,
+  token: null,
 };
 
 const AuthDispatchContext = createContext();
 const AuthStateContext = createContext();
 
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+const LOGOUT = 'LOGOUT';
+
 function reducer(state, { payload, type }) {
   switch (type) {
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
+      };
+    case LOGOUT: {
+      return initialState;
+    }
     default:
       throw new Error(`Unhandled action type ${type}`);
   }
@@ -15,8 +29,42 @@ function reducer(state, { payload, type }) {
 
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  //register user
+  const register = async ({ name, email, password }) => {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      body: JSON.stringify({ name, email, password }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.message);
+
+    const { token, ...user } = json;
+    dispatch({ type: LOGIN_SUCCESS, payload: { token, user } });
+  };
+  //login
+  const login = async ({ email, password }) => {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.message);
+
+    const { token, ...user } = json;
+
+    dispatch({ type: LOGIN_SUCCESS, payload: { token, user } });
+  };
+  //logout
+  const logout = () => dispatch({ type: LOGOUT });
+
   return (
-    <AuthDispatchContext.Provider>
+    <AuthDispatchContext.Provider value={{ login, register, logout }}>
       <AuthStateContext.Provider value={state}>{children}</AuthStateContext.Provider>
     </AuthDispatchContext.Provider>
   );
