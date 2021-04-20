@@ -1,5 +1,4 @@
 import React from 'react';
-import Name from '../components/Name';
 import { useAuthState, useAuthDispatch } from '../context/auth';
 
 export default function index() {
