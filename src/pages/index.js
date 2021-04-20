@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuthState, useAuthDispatch } from '../context/auth';
-
+import Link from 'next/link';
 export default function index() {
   const { isAuthenticated, user } = useAuthState();
   const { login, register, logout } = useAuthDispatch();
@@ -21,17 +21,7 @@ export default function index() {
       >
         login
       </button>
-      <button
-        onClick={() =>
-          register({
-            name: 'enes',
-            email: 'enes@gmail.com',
-            password: 'enes1234',
-          })
-        }
-      >
-        register
-      </button>
+      <Link href="/register">register</Link>
     </>
   );
 }
