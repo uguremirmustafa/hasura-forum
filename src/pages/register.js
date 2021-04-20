@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { useAuthDispatch, useAuthState } from '../context/auth';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Layout from '../components/Layout';
 const schema = yup.object().shape({
   name: yup.string().required(),
   email: yup.string().email().required(),
@@ -46,7 +47,7 @@ export default function RegisterPage() {
     //4.if successfull, redirect to the root
   };
   return (
-    <>
+    <Layout>
       <h2>create an account</h2>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div>
@@ -67,6 +68,6 @@ export default function RegisterPage() {
           </button>
         </div>
       </form>
-    </>
+    </Layout>
   );
 }
