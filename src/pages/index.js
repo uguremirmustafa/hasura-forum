@@ -1,4 +1,5 @@
 import React from 'react';
+import Name from '../components/Name';
 import { useAuthState, useAuthDispatch } from '../context/auth';
 
 export default function index() {
@@ -14,8 +15,8 @@ export default function index() {
       <button
         onClick={() =>
           login({
-            email: 'ugur@gmail.com',
-            password: 'ugur1234',
+            email: 'enes@gmail.com',
+            password: 'enes1234',
           })
         }
       >
@@ -24,9 +25,9 @@ export default function index() {
       <button
         onClick={() =>
           register({
-            name: 'messi',
-            email: 'ugur@gmail.com',
-            password: 'ugur1234',
+            name: 'enes',
+            email: 'enes@gmail.com',
+            password: 'enes1234',
           })
         }
       >

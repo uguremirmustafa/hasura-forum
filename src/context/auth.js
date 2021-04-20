@@ -1,4 +1,6 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useReducer, useEffect } from 'react';
+import createPersistedState from 'use-persisted-state';
+
 const initialState = {
   isAuthenticated: false,
   user: null,
@@ -7,6 +9,7 @@ const initialState = {
 
 const AuthDispatchContext = createContext();
 const AuthStateContext = createContext();
+const usePersistedAuthState = createPersistedState('hasura-forum-auth');
 
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGOUT = 'LOGOUT';
@@ -28,7 +31,13 @@ function reducer(state, { payload, type }) {
 }
 
 function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [savedAuthState, saveAuthState] = usePersistedAuthState(JSON.stringify(initialState));
+  const [state, dispatch] = useReducer(reducer, JSON.parse(savedAuthState));
+
+  useEffect(() => {
+    saveAuthState(JSON.stringify(state));
+  }, [state, saveAuthState]);
+
   //register user
   const register = async ({ name, email, password }) => {
     const res = await fetch('/api/register', {
