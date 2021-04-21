@@ -42,9 +42,6 @@ export default function RegisterPage() {
         message: error.message,
       });
     }
-    //2.send POST request to /api/register
-    //3.if there is an error, return the error
-    //4.if successfull, redirect to the root
   };
   return (
     <Layout>
