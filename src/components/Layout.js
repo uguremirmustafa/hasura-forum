@@ -10,7 +10,7 @@ export default function Layout({ children }) {
         <div className="max-w-4xl mx-auto px-6">
           {isAuthenticated ? (
             <>
-              <span>hello {user?.name}</span>
+              <span className="pr-4">{user?.name}</span>
               <button onClick={() => logout()}>logout</button>
             </>
           ) : (
