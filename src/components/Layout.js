@@ -15,8 +15,9 @@ export default function Layout({ children }) {
             </>
           ) : (
             <>
-              <Link href="/login">login</Link>
-              <Link href="/register">register</Link>
+              <Link href="/login">Login</Link>
+              <Link href="/register">Register</Link>
+              <Link href="/ask">Ask A Question</Link>
             </>
           )}
         </div>
