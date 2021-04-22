@@ -8,16 +8,16 @@ export default function Layout({ children }) {
     <>
       <header className="bg-white py-6 shadow-sm">
         <div className="max-w-4xl mx-auto px-6">
+          <Link href="/ask">Ask A Question</Link>
           {isAuthenticated ? (
             <>
-              <span className="pr-4">{user?.name}</span>
+              <span className="px-4">{user?.name}</span>
               <button onClick={() => logout()}>logout</button>
             </>
           ) : (
             <>
               <Link href="/login">Login</Link>
               <Link href="/register">Register</Link>
-              <Link href="/ask">Ask A Question</Link>
             </>
           )}
         </div>
