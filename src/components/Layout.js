@@ -8,7 +8,12 @@ export default function Layout({ children }) {
     <>
       <header className="bg-white py-6 shadow-sm">
         <div className="max-w-4xl mx-auto px-6">
-          <Link href="/ask">Ask A Question</Link>
+          <Link href="/">
+            <a className="mr-2">Home</a>
+          </Link>
+          <Link href="/ask">
+            <a>Ask A Question</a>
+          </Link>
           {isAuthenticated ? (
             <>
               <span className="px-4">{user?.name}</span>
