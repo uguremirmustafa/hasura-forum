@@ -3,7 +3,6 @@ import Layout from '../components/Layout';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useAuthDispatch, useAuthState } from '../context/auth';
 import { hasuraAdminClient } from '../lib/hasura-admin-client';
 import { gql } from 'graphql-request';
 import { hasuraUserClient } from '../lib/hasura-user-client';

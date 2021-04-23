@@ -79,7 +79,7 @@ function AuthProvider({ children }) {
   );
 }
 
-function useAuthDispatch() {
+function useAuthDispatch(login) {
   const context = useContext(AuthDispatchContext);
   if (context === undefined) throw new Error('useAuthDispatch must be used within an AuthProvider');
   return context;
