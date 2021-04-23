@@ -45,7 +45,7 @@ const GetTodaysPosts = gql`
 
 export const getStaticProps = async () => {
   const hasura = hasuraUserClient();
-  const { threads: initialData } = await hasura.request(GetTodaysPosts, {
+  const initialData = await hasura.request(GetTodaysPosts, {
     from,
     to,
   });
