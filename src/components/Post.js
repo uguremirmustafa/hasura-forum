@@ -1,6 +1,8 @@
 import React from 'react';
 import { formatRelative } from 'date-fns';
 import { FaUserCircle } from 'react-icons/fa';
+import Markdown from 'react-markdown';
+
 const today = new Date();
 export default function Post({ id, message, created_at, author }) {
   const timeAgo = formatRelative(Date.parse(created_at), today, {
@@ -17,7 +19,9 @@ export default function Post({ id, message, created_at, author }) {
           <span className="text-lg font-semibold">{author.name}</span>
           <span className="text-xs">{timeAgo}</span>
         </div>
-        <div>{message}</div>
+        <div>
+          <Markdown children={message} />
+        </div>
       </div>
     </div>
   );

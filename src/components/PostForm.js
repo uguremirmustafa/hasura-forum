@@ -1,9 +1,10 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FaUserCircle } from 'react-icons/fa';
-
+import ReactMde from 'react-mde';
+import Markdown from 'react-markdown';
 const schema = yup.object().shape({
   message: yup.string().required(),
 });
@@ -12,10 +13,13 @@ export default function PostForm({ onSubmit }) {
     handleSubmit,
     register,
     setError,
+    control,
     formState: { isSubmitting, errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const [selectedTab, setSelectedTab] = useState('write');
+
   return (
     <div className="flex gap-4">
       <div>
@@ -23,11 +27,26 @@ export default function PostForm({ onSubmit }) {
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex-1">
         <div>
-          <textarea
-            {...register('message')}
-            placeholder="reply to thread"
-            rows={5}
-            className="w-full p-4 bg-gray-100 rounded-md"
+          <Controller
+            control={control}
+            name="message"
+            defaultValue=""
+            render={({
+              field: { onChange, onBlur, value, name, ref },
+              fieldState: { invalid, isTouched, isDirty, error },
+              formState,
+            }) => (
+              <ReactMde
+                onChange={onChange}
+                value={value}
+                name={name}
+                selectedTab={selectedTab}
+                onTabChange={setSelectedTab}
+                generateMarkdownPreview={(markdown) =>
+                  Promise.resolve(<Markdown children={markdown} />)
+                }
+              />
+            )}
           />
           {errors.message && <span>{errors.message?.message}</span>}
         </div>
