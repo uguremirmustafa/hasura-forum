@@ -6,11 +6,12 @@ import { hasuraUserClient, gql } from '../lib/hasura-user-client';
 
 const GetThreads = gql`
   {
-    threads(order_by: { posts_aggregate: { max: { created_at: desc } } }) {
+    threads(order_by: { pinned: desc, posts_aggregate: { max: { created_at: desc } } }) {
       id
       title
       answered
       locked
+      pinned
       author {
         name
       }
