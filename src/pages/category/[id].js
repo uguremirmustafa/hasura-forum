@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import ThreadList from '../../components/ThreadList';
 
 const GetCategoryIds = gql`
-  {
+  query GetCategoryIds {
     categories {
       id
     }
@@ -48,8 +48,7 @@ const GetCategoryById = gql`
 export const getStaticProps = async ({ params }) => {
   const { id } = params;
   const hasura = hasuraUserClient();
-  const { categories_by_pk: initialData } = await hasura.request(GetCategoryById, { id });
-
+  const initialData = await hasura.request(GetCategoryById, { id });
   return {
     props: {
       initialData,
@@ -70,16 +69,19 @@ export default function CategoryPage({ initialData }) {
   const hasura = hasuraUserClient();
   const router = useRouter();
 
-  const { id } = router.query;
+  const { id, isFallback } = router.query;
 
   const { data } = useSWR([GetCategoryById, id], (query, id) => hasura.request(query, { id }), {
     initialData,
     revalidateOnMount: true,
   });
+
+  if (!isFallback && !data) return <Layout>No such thread found</Layout>;
+  if (isFallback) return <Layout>Loading thread</Layout>;
   return (
     <Layout>
-      <h2 className="text-2xl font-bold">{data.categories_by_pk?.name}</h2>
-      <ThreadList threads={data.categories_by_pk?.threads} />
+      <h2 className="text-2xl font-bold">{data.categories_by_pk.name}</h2>
+      <ThreadList threads={data.categories_by_pk.threads} />
     </Layout>
   );
 }

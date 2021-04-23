@@ -48,7 +48,7 @@ const InsertPost = gql`
 export const getStaticProps = async ({ params }) => {
   const { id } = params;
   const hasura = hasuraUserClient();
-  const { threads_by_pk: initialData } = await hasura.request(GetThreadById, { id });
+  const initialData = await hasura.request(GetThreadById, { id });
 
   return {
     props: {
@@ -82,11 +82,9 @@ export default function ThreadPage({ initialData }) {
       revalidateOnMount: true,
     }
   );
-
   if (!isFallback && !data) return <p>No such thread found</p>;
 
   const handlePost = async ({ message }, { target }) => {
-    console.log(target);
     try {
       const { insert_posts_one } = await hasura.request(InsertPost, { threadId: id, message });
 
@@ -94,7 +92,7 @@ export default function ThreadPage({ initialData }) {
         ...data,
         threads_by_pk: {
           ...data.threads_by_pk,
-          posts: [...data.threads_by_pk.posts, insert_posts_one],
+          posts: [...data.threads_by_pk?.posts, insert_posts_one],
         },
       });
 
@@ -107,8 +105,8 @@ export default function ThreadPage({ initialData }) {
   if (isFallback) return <Layout>Loading thread</Layout>;
   return (
     <Layout>
-      <h2 className="text-2xl font-bold">{data.threads_by_pk?.title}</h2>
-      <PostList posts={data.threads_by_pk?.posts} />
+      <h2 className="text-2xl font-bold">{data.threads_by_pk.title}</h2>
+      <PostList posts={data.threads_by_pk.posts} />
       {isAuthenticated && !data.threads_by_pk?.locked && <PostForm onSubmit={handlePost} />}
     </Layout>
   );
