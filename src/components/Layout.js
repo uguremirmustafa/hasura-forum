@@ -18,6 +18,9 @@ export default function Layout({ children }) {
             </Link>
           </div>
           <div>
+            <Link href="/unanswered">
+              <a>UnAnswered Posts</a>
+            </Link>
             <Link href="/answered">
               <a>Answered Posts</a>
             </Link>
