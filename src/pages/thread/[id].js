@@ -19,6 +19,7 @@ const GetThreadById = gql`
     threads_by_pk(id: $id) {
       id
       title
+      locked
       posts(order_by: { created_at: asc }) {
         id
         message
@@ -100,7 +101,7 @@ export default function ThreadPage({ initialData }) {
     <Layout>
       <h2 className="text-2xl font-bold">{data.threads_by_pk?.title}</h2>
       <PostList posts={data.threads_by_pk?.posts} />
-      <PostForm onSubmit={handlePost} />
+      {data.threads_by_pk?.locked ? 'this thread is locked' : <PostForm onSubmit={handlePost} />}
     </Layout>
   );
 }

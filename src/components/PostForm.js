@@ -35,9 +35,9 @@ export default function PostForm({ onSubmit }) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-green-500 text-white font-bold p-2 rounded"
+            className="bg-green-500 text-white font-bold p-2 rounded w-40"
           >
-            Reply
+            {isSubmitting ? 'submitting' : 'reply'}
           </button>
         </div>{' '}
       </form>
