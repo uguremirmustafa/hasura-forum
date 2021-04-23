@@ -18,6 +18,9 @@ export default function Layout({ children }) {
             </Link>
           </div>
           <div>
+            <Link href="/answered">
+              <a>Answered Posts</a>
+            </Link>
             <Link href="/today">
               <a>Today's Posts</a>
             </Link>
