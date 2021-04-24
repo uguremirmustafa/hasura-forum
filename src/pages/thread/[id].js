@@ -5,7 +5,7 @@ import { gql, hasuraUserClient } from '../../lib/hasura-user-client';
 import { useRouter } from 'next/router';
 import PostList from '../../components/PostList';
 import PostForm from '../../components/PostForm';
-import { useAuthState, useAuthDispatch } from '../../context/auth';
+import { useAuthState } from '../../context/auth';
 const GetThreadIds = gql`
   {
     threads {
@@ -26,6 +26,7 @@ const GetThreadById = gql`
         created_at
         author {
           name
+          id
         }
         likes {
           id
@@ -49,6 +50,16 @@ const InsertPost = gql`
       created_at
       author {
         name
+        id
+      }
+      likes {
+        id
+        user_id
+      }
+      likes_aggregate {
+        aggregate {
+          count
+        }
       }
     }
   }
@@ -65,6 +76,14 @@ const InsertLike = gql`
 const DeleteLike = gql`
   mutation DeleteLike($id: uuid!) {
     delete_likes_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+
+const DeletePost = gql`
+  mutation DeletePost($id: uuid!) {
+    delete_posts_by_pk(id: $id) {
       id
     }
   }
@@ -127,6 +146,18 @@ export default function ThreadPage({ initialData }) {
     }
   };
 
+  const handleDeletePost = async ({ id }) => {
+    console.log(id);
+    await hasura.request(DeletePost, { id });
+    mutate({
+      ...data,
+      threads_by_pk: {
+        ...data.threads_by_pk,
+        posts: data.threads_by_pk.posts.filter((p) => p.id !== id),
+      },
+    });
+  };
+
   const handleLike = async ({ postId }) => {
     await hasura.request(InsertLike, { postId });
     mutate();
@@ -140,7 +171,10 @@ export default function ThreadPage({ initialData }) {
   return (
     <Layout>
       <h2 className="text-2xl font-bold">{data.threads_by_pk.title}</h2>
-      <PostList posts={data.threads_by_pk.posts} actions={{ handleLike, handleUnlike }} />
+      <PostList
+        posts={data.threads_by_pk.posts}
+        actions={{ handleLike, handleUnlike, handleDeletePost }}
+      />
       {isAuthenticated && !data.threads_by_pk?.locked && <PostForm onSubmit={handlePost} />}
     </Layout>
   );
