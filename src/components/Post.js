@@ -2,9 +2,10 @@ import React from 'react';
 import { formatRelative } from 'date-fns';
 import { FaUserCircle } from 'react-icons/fa';
 import Markdown from 'react-markdown';
+import Reactions from './Reactions';
 
 const today = new Date();
-export default function Post({ id, message, created_at, author }) {
+export default function Post({ id, message, created_at, author, actions, likes_aggregate, likes }) {
   const timeAgo = formatRelative(Date.parse(created_at), today, {
     weekStartsOn: 1,
   });
@@ -22,6 +23,7 @@ export default function Post({ id, message, created_at, author }) {
         <div>
           <Markdown children={message} />
         </div>
+        <Reactions {...actions} postId={id} likes_aggregate={likes_aggregate} likes={likes} />
       </div>
     </div>
   );
