@@ -27,6 +27,15 @@ const GetThreadById = gql`
         author {
           name
         }
+        likes {
+          id
+          user_id
+        }
+        likes_aggregate {
+          aggregate {
+            count
+          }
+        }
       }
     }
   }
@@ -41,6 +50,22 @@ const InsertPost = gql`
       author {
         name
       }
+    }
+  }
+`;
+
+const InsertLike = gql`
+  mutation InsertLike($postId: uuid!) {
+    insert_likes_one(object: { post_id: $postId }) {
+      id
+    }
+  }
+`;
+
+const DeleteLike = gql`
+  mutation DeleteLike($id: uuid!) {
+    delete_likes_by_pk(id: $id) {
+      id
     }
   }
 `;
@@ -102,11 +127,20 @@ export default function ThreadPage({ initialData }) {
     }
   };
 
+  const handleLike = async ({ postId }) => {
+    await hasura.request(InsertLike, { postId });
+    mutate();
+  };
+  const handleUnlike = async ({ id }) => {
+    await hasura.request(DeleteLike, { id });
+    mutate();
+  };
+
   if (isFallback) return <Layout>Loading thread</Layout>;
   return (
     <Layout>
       <h2 className="text-2xl font-bold">{data.threads_by_pk.title}</h2>
-      <PostList posts={data.threads_by_pk.posts} />
+      <PostList posts={data.threads_by_pk.posts} actions={{ handleLike, handleUnlike }} />
       {isAuthenticated && !data.threads_by_pk?.locked && <PostForm onSubmit={handlePost} />}
     </Layout>
   );
