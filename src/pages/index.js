@@ -57,7 +57,7 @@ export default function IndexPage({ initialData }) {
   });
   return (
     <Layout>
-      <h1 className="page-title">Welcome to Hasura-Forum</h1>
+      <h1 className="page-title">Welcome to NextJS-Graphql-Forum</h1>
       <ThreadList threads={data.threads} />
     </Layout>
   );
