@@ -3,5 +3,28 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gray-50;
+  @apply bg-gray-100;
+}
+@layer components {
+  .nav-btn {
+    @apply px-2 py-1 bg-green-500 m-1 rounded-md inline-block text-xs font-bold text-white hover:bg-green-400;
+  }
+  .nav-btn-secondary {
+    @apply nav-btn bg-red-400 hover:bg-red-300;
+  }
+  .input-field {
+    @apply py-1 px-2 border rounded-sm bg-white outline-none focus:border-green-500 text-sm inline-block w-full;
+  }
+  .input-error {
+    @apply text-xs px-2 text-red-500 w-full text-left;
+  }
+  .form {
+    @apply bg-gray-50 p-4 border rounded-sm grid gap-2 place-items-center max-w-md mx-auto w-full;
+  }
+  .page-title {
+    @apply text-xl md:text-2xl font-bold capitalize my-4 text-center;
+  }
+  .submit-btn {
+    @apply input-field bg-green-500 hover:bg-green-400 font-bold text-white border-green-500 capitalize;
+  }
 }

@@ -59,7 +59,7 @@ export default function AnsweredPostsPage({ initialData }) {
   });
   return (
     <Layout>
-      <h1 className="text-3xl">Posts Waiting to be Answered</h1>
+      <h1 className="page-title">Posts Waiting to be Answered</h1>
       <ThreadList threads={data.threads} />
     </Layout>
   );

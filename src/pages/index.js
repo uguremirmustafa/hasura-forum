@@ -38,7 +38,7 @@ const GetThreads = gql`
 
 export const getStaticProps = async () => {
   const hasura = hasuraUserClient();
-  const { threads: initialData } = await hasura.request(GetThreads);
+  const initialData = await hasura.request(GetThreads);
 
   return {
     props: {
@@ -51,13 +51,13 @@ export const getStaticProps = async () => {
 export default function IndexPage({ initialData }) {
   const hasura = hasuraUserClient();
 
-  const { data, error } = useSWR(GetThreads, (query) => hasura.request(query), {
+  const { data } = useSWR(GetThreads, (query) => hasura.request(query), {
     initialData,
     revalidateOnMount: true,
   });
   return (
     <Layout>
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
+      <h1 className="page-title">Welcome to Hasura-Forum</h1>
       <ThreadList threads={data.threads} />
     </Layout>
   );

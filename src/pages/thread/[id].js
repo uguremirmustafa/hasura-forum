@@ -170,7 +170,7 @@ export default function ThreadPage({ initialData }) {
   if (isFallback) return <Layout>Loading thread</Layout>;
   return (
     <Layout>
-      <h2 className="text-2xl font-bold">{data.threads_by_pk.title}</h2>
+      <h2 className="page-title">{data.threads_by_pk.title}</h2>
       <PostList
         posts={data.threads_by_pk.posts}
         actions={{ handleLike, handleUnlike, handleDeletePost }}

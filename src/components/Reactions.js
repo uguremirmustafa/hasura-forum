@@ -23,7 +23,7 @@ export default function Reactions({ likes_aggregate, handleLike, handleUnlike, p
             liked
               ? 'hover:bg-red-200 hover:text-red-500'
               : 'hover:bg-green-200 hover:text-green-500'
-          } rounded-full p-2`}
+          } rounded-full md:p-2`}
         >
           <AiOutlineLike />
         </button>

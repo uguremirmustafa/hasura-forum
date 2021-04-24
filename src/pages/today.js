@@ -67,7 +67,7 @@ export default function TodaysPostsPage({ initialData, from, to }) {
   });
   return (
     <Layout>
-      <h1 className="text-3xl">Today's Posts</h1>
+      <h1 className="page-title">Today's Posts</h1>
       <ThreadList threads={data.threads} />
     </Layout>
   );

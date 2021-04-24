@@ -51,51 +51,43 @@ export default function AskPage({ categories }) {
   };
   return (
     <Layout>
-      <h2 className="text-3xl">ask a question</h2>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div>
-          <select {...register('categoryId')}>
-            {categories.map(({ id, name }) => (
-              <option value={id} key={id}>
-                {name}
-              </option>
-            ))}
-          </select>
-          {errors.categoryId && <span>{errors.categoryId?.message}</span>}
-        </div>
-        <div>
-          <input {...register('title')} placeholder="thread title" />
-          {errors.title && <span>{errors.title?.message}</span>}
-        </div>
-        <div>
-          <Controller
-            control={control}
-            name="message"
-            defaultValue=""
-            render={({
-              field: { onChange, onBlur, value, name, ref },
-              fieldState: { invalid, isTouched, isDirty, error },
-              formState,
-            }) => (
-              <ReactMde
-                onChange={onChange}
-                value={value}
-                name={name}
-                selectedTab={selectedTab}
-                onTabChange={setSelectedTab}
-                generateMarkdownPreview={(markdown) =>
-                  Promise.resolve(<Markdown children={markdown} />)
-                }
-              />
-            )}
-          />
-          {errors.message && <span>{errors.message?.message}</span>}
-        </div>
-        <div>
-          <button type="submit" disabled={isSubmitting}>
-            Post
-          </button>
-        </div>{' '}
+      <h2 className="page-title">ask a question</h2>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="form">
+        <select {...register('categoryId')} className="input-field">
+          {categories.map(({ id, name }) => (
+            <option value={id} key={id}>
+              {name}
+            </option>
+          ))}
+        </select>
+        {errors.categoryId && <span>{errors.categoryId?.message}</span>}
+        <input className="input-field" {...register('title')} placeholder="thread title" />
+        {errors.title && <span>{errors.title?.message}</span>}
+        <Controller
+          control={control}
+          name="message"
+          defaultValue=""
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState: { invalid, isTouched, isDirty, error },
+            formState,
+          }) => (
+            <ReactMde
+              onChange={onChange}
+              value={value}
+              name={name}
+              selectedTab={selectedTab}
+              onTabChange={setSelectedTab}
+              generateMarkdownPreview={(markdown) =>
+                Promise.resolve(<Markdown children={markdown} />)
+              }
+            />
+          )}
+        />
+        {errors.message && <span>{errors.message?.message}</span>}
+        <button className="submit-btn" type="submit" disabled={isSubmitting}>
+          Post
+        </button>
       </form>
     </Layout>
   );

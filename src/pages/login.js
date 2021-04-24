@@ -41,27 +41,30 @@ export default function LoginPage() {
         message: error.message,
       });
     }
-    //2.send POST request to /api/register
-    //3.if there is an error, return the error
-    //4.if successfull, redirect to the root
   };
   return (
     <Layout>
-      <h2>login to your account</h2>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div>
-          <input type="email" {...register('email')} placeholder="enter your email" />
-          {errors.email && <span>{errors.email?.message}</span>}
-        </div>
-        <div>
-          <input type="password" {...register('password')} placeholder="enter your password" />
-          {errors.password && <span>{errors.password?.message}</span>}
-        </div>
-        <div>
-          <button type="submit" disabled={isSubmitting}>
-            login
-          </button>
-        </div>
+      <h2 className="page-title">login to your account</h2>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="form">
+        <input
+          className="input-field"
+          type="email"
+          {...register('email')}
+          placeholder="Enter your email"
+        />
+        {errors.email && <span className="input-error">{errors.email?.message}</span>}
+
+        <input
+          className="input-field"
+          type="password"
+          {...register('password')}
+          placeholder="Enter your password"
+        />
+        {errors.password && <span className="input-error">{errors.password?.message}</span>}
+
+        <button className="submit-btn" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Loading' : 'Login'}
+        </button>
       </form>
     </Layout>
   );

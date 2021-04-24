@@ -45,25 +45,30 @@ export default function RegisterPage() {
   };
   return (
     <Layout>
-      <h2>create an account</h2>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div>
-          <input {...register('name')} placeholder="your name" />
-          {errors.name && <span>{errors.name?.message}</span>}
-        </div>
-        <div>
-          <input type="email" {...register('email')} placeholder="your email" />
-          {errors.email && <span>{errors.email?.message}</span>}
-        </div>
-        <div>
-          <input type="password" {...register('password')} placeholder="choose a password" />
-          {errors.password && <span>{errors.password?.message}</span>}
-        </div>
-        <div>
-          <button type="submit" disabled={isSubmitting}>
-            create an account
-          </button>
-        </div>
+      <h2 className="page-title ">create an account</h2>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="form ">
+        <input className="input-field" {...register('name')} placeholder="your name" />
+        {errors.name && <span className="input-error">{errors.name?.message}</span>}
+
+        <input
+          className="input-field"
+          type="email"
+          {...register('email')}
+          placeholder="your email"
+        />
+        {errors.email && <span className="input-error ">{errors.email?.message}</span>}
+
+        <input
+          className="input-field"
+          type="password"
+          {...register('password')}
+          placeholder="choose a password"
+        />
+        {errors.password && <span className="input-error">{errors.password?.message}</span>}
+
+        <button type="submit" className="submit-btn" disabled={isSubmitting}>
+          {isSubmitting ? 'Loading' : 'create an account'}
+        </button>
       </form>
     </Layout>
   );
